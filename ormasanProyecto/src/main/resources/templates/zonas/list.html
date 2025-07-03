@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout (title='Zonas de Soldadura - Ormasan', content=~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Zonas de Soldadura</title>
+</head>
+<body>
+    <div th:fragment="content" class="card">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Zonas de Soldadura</h2>
+
+        <div class="mb-6 flex justify-end">
+            <a href="/zonas/new" class="btn-primary inline-block font-semibold">Crear Nueva Zona de Soldadura</a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white rounded-lg shadow-md">
+                <thead>
+                    <tr>
+                        <th class="py-3 px-4 table-header text-left rounded-tl-lg">ID</th>
+                        <th class="py-3 px-4 table-header text-left">Nombre de Zona</th>
+                        <th class="py-3 px-4 table-header text-left">Descripción</th>
+                        <th class="py-3 px-4 table-header text-left rounded-tr-lg">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="zona : ${zonas}" class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-3 px-4 text-gray-700" th:text="${zona.idZona}"></td>
+                        <td class="py-3 px-4 text-gray-700" th:text="${zona.nombreZona}"></td>
+                        <td class="py-3 px-4 text-gray-700" th:text="${zona.descripcion}"></td>
+                        <td class="py-3 px-4 flex space-x-2">
+                            <a th:href="@{/zonas/edit/{id}(id=${zona.idZona})}" class="link-blue font-medium">Editar</a>
+                            <a th:href="@{/zonas/delete/{id}(id=${zona.idZona})}" class="text-red-500 hover:text-red-700 font-medium"
+                               onclick="return confirm('¿Estás seguro de que quieres eliminar esta zona de soldadura?');">Eliminar</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${zonas.isEmpty()}">
+                        <td colspan="4" class="py-4 px-4 text-center text-gray-600">No hay zonas de soldadura registradas.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

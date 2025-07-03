@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ th:replace="~{layout :: layout(title='Editar-Crear Materiales', content=~{::content})}">>
+<head>
+
+    <meta charset="UTF-8" />
+    <title>Materiales</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .formulario {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 40px;
+        }
+
+        .form-grupo {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .form-grupo label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-grupo input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+		
+
+		.form-grupo select {
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 6px;
+			font-size: 16px;
+			background-color: #fff;
+			color: #333;
+			appearance: none; /* Oculta el estilo nativo del navegador */
+			-webkit-appearance: none;
+			-moz-appearance: none;
+		}
+
+
+        .form-acciones {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .btn-guardar {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-cancelar {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table thead {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .tabla-container {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+	<div th:fragment="content">
+		<div class="container">
+		    <h1>Crear Nuevo Material</h1>
+		    <form th:action="@{/Materiales/registrar}" th:object="${materiales}" method="post">
+		        <input type="hidden" th:field="*{idMaterial}" />
+
+		        <div class="mb-3">
+		            <label for="nombre" class="form-label">Nombre:</label>
+		            <input type="text" id="nombre" th:field="*{nombreMaterial}" class="form-control" placeholder="Nombre" maxlength="50" required />
+		        </div>
+
+		        <div class="mb-3">
+		            <label for="categoria" class="form-label">Categoría:</label>
+		            <select th:field="*{tipoMaterial}" class="form-select" required>
+		                <option value="" disabled selected>---Seleccione tipo material---</option>
+		                <option th:each="tipos : ${tipo}" th:value="${tipos.idTipoMaterial}" th:text="${tipos.nombreTipo}"></option>
+		            </select>
+		        </div>
+
+		        <div class="mb-3">
+		            <label for="medida" class="form-label">Unidad de medida:</label>
+		            <input type="text" id="medida" th:field="*{unidadMedida}" class="form-control" required />
+		        </div>
+
+		        <div class="mb-3">
+		            <label for="precio" class="form-label">Precio:</label>
+		            <input type="number" id="precio" th:field="*{costoUnit}" class="form-control" placeholder="Precio" step="0.01" min="0" required />
+		        </div>
+
+		        <div class="d-flex justify-content-between">
+		            <button type="submit" class="btn btn-warning">Guardar</button>
+		            <a th:href="@{/Materiales/Listar}" class="btn btn-primary">Cancelar</a>
+		        </div>
+		    </form>
+		</div>
+</div>
+</body>
+</html>

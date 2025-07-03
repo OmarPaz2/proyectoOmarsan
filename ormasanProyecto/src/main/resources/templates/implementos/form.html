@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout (title=${implemento.idImplemento} ? 'Editar Implemento' : 'Crear Implemento', content=~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Implemento de Seguridad</title>
+</head>
+<body>
+    <div th:fragment="content" class="card max-w-lg mx-auto">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6" th:text="${implemento.idImplemento} ? 'Editar Implemento de Seguridad' : 'Crear Nuevo Implemento de Seguridad'"></h2>
+
+        <form th:action="@{/implementos/save}" th:object="${implemento}" method="post">
+            <input type="hidden" th:field="*{idImplemento}" />
+
+            <div class="mb-4">
+                <label for="nombreImp" class="form-label">Nombre de Implemento:</label>
+                <input type="text" id="nombreImp" th:field="*{nombreImp}" class="form-input" required />
+            </div>
+
+            <div class="mb-4">
+                <label for="tipo" class="form-label">Tipo de Implemento:</label>
+                <select id="tipo" th:field="*{tipo.idTipo}" class="form-input" required>
+                    <option value="">Seleccione un tipo</option>
+                    <option th:each="tipoImp : ${tipos}"
+                            th:value="${tipoImp.idTipo}"
+                            th:text="${tipoImp.nombreTipo}"
+                            th:selected="${implemento.tipo != null and implemento.tipo.idTipo == tipoImp.idTipo}"></option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="costo_unit" class="form-label">Costo Unitario:</label>
+                <input type="number" id="costo_unit" th:field="*{costoUnit}" class="form-input" step="0.01" required />
+            </div>
+
+            <div class="mb-6">
+                <label for="unidadMedida" class="form-label">Unidad de Medida:</label>
+                <input type="text" id="unidadMedida" th:field="*{unidadMedida}" class="form-input" required />
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button type="submit" class="btn-primary font-semibold">Guardar Implemento</button>
+                <a href="/implementos" class="btn-secondary font-semibold">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

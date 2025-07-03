@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="[http://www.thymeleaf.org](http://www.thymeleaf.org)"
+      th:replace="~{layout :: layout (title='Equipos de Seguridad - Ormasan', content=~{::content})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Equipos de Seguridad</title>
+</head>
+<body>
+    <div th:fragment="content" class="card">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Equipos de Seguridad para Soldadura</h2>
+
+        <div class="mb-6 flex justify-end">
+            <a href="/implementos/new" class="btn-primary inline-block font-semibold">Añadir Nuevo Equipo de Seguridad</a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white rounded-lg shadow-md">
+                <thead>
+                    <tr>
+                        <th class="py-3 px-4 table-header text-left rounded-tl-lg">ID</th>
+                        <th class="py-3 px-4 table-header text-left">Nombre de Equipo</th>
+                        <th class="py-3 px-4 table-header text-left">Tipo</th>
+                        <th class="py-3 px-4 table-header text-left">Costo Unitario</th>
+                        <th class="py-3 px-4 table-header text-left">Unidad de Medida</th>
+                        <th class="py-3 px-4 table-header text-left rounded-tr-lg">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="implemento : ${implementos}" class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-3 px-4 text-gray-700" th:text="${implemento.idImplemento}"></td>
+                        <td class="py-3 px-4 text-gray-700" th:text="${implemento.nombreImp}"></td>
+                        <td class="py-3 px-4 text-gray-700" th:text="${implemento.tipo != null ? implemento.tipo.nombreTipo : 'N/A'}"></td>
+                        <td class="py-3 px-4 text-gray-700" th:text="${implemento.costoUnit}"></td>
+                        <td class="py-3 px-4 text-gray-700" th:text="${implemento.unidadMedida}"></td>
+                        <td class="py-3 px-4 flex space-x-2">
+                            <a th:href="@{/implementos/edit/{id}(id=${implemento.idImplemento})}" class="link-blue font-medium">Editar</a>
+                            <a th:href="@{/implementos/delete/{id}(id=${implemento.idImplemento})}" class="text-red-500 hover:text-red-700 font-medium"
+                               onclick="return confirm('¿Estás seguro de que quieres eliminar este equipo?');">Eliminar</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${implementos.isEmpty()}">
+                        <td colspan="6" class="py-4 px-4 text-center text-gray-600">No hay equipos de seguridad registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

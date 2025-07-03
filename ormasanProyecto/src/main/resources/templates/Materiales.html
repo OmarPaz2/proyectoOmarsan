@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Materiales</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f7f9fc;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1.titulo {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background-color: #3498db;
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      margin-left: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background-color: #2980b9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f0f4f8;
+      color: #34495e;
+    }
+
+    tr:hover {
+      background-color: #f9fbfd;
+    }
+
+    .btn-edit, .btn-delete {
+      padding: 6px 12px;
+      font-size: 0.9em;
+      font-weight: 600;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-edit {
+      background-color: #f1c40f;
+    }
+
+    .btn-edit:hover {
+      background-color: #d4ac0d;
+    }
+
+    .btn-delete {
+      background-color: #e74c3c;
+    }
+
+    .btn-delete:hover {
+      background-color: #c0392b;
+    }
+	.header-bg {
+		          background-color: #f97316; 
+		          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+		      }
+  </style>
+</head>
+<body>
+	<header class="header-bg p-4">
+		       <nav class="container mx-auto flex justify-between items-center">
+		           <a href="/Home" class="text-white text-2xl font-bold">Ormasan Soldadura</a>
+		           <ul class="flex space-x-6">
+		               <li><a href="/zonas" class="text-white hover:text-gray-200 text-lg font-medium transition duration-300">Zonas de Soldadura</a></li>
+		               <li><a href="/implementos" class="text-white hover:text-gray-200 text-lg font-medium transition duration-300">Equipos de Seguridad</a></li>
+					<li><a href="/Materiales/Listar" class="text-white hover:text-gray-200 text-lg font-medium transition duration-300">Materiales</a></li>
+					<li><a th:href="@{'/trabajoCosteo/Costeo'}" class="text-white hover:text-gray-200 text-lg font-medium transition duration-300">Registrar Costeo</a></li>
+					<li><a href="/costeo/listar" class="text-white hover:text-gray-200 text-lg font-medium transition duration-300">Reporte</a></li>
+		           </ul>
+		       </nav>
+		   </header>
+  <h1 class="titulo">Listado de Materiales</h1>
+
+  <div class="top-bar">
+    <button class="btn" onclick="location.href='/Materiales/Formulario_crear'">Crear Material</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Unidad de medida</th>
+		<th>Costo Unitario</th>
+        <th>Editar</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="material : ${materiales}">
+        <td th:text="${material.idMaterial}">1</td>
+        <td th:text="${material.nombreMaterial}">Nombre</td>
+        <td th:text="${material.tipoMaterial.nombreTipo}">Categoría</td>
+        <td th:text="${material.unidadMedida}">unidad de medida</td>
+        <td th:text="${material.costoUnit}">$0.00</td>
+        <td>
+          <button class="btn-edit"
+            th:onclick="|location.href='/Materiales/editar/${material.idMaterial}'|">
+            Editar
+          </button>
+        </td>
+        <td>
+          <button class="btn-delete"
+            th:onclick="|if(confirm('¿Eliminar material?')) location.href='/Materiales/eliminar/${material.idMaterial}'|">
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>
